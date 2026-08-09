@@ -1,31 +1,27 @@
-from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from time import sleep
 import pytest
-# import os
+from time import sleep
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
+
 
 # Написать скрипт, который:
 #
 #     Открывает в браузере Firefox https://itcareerhub.de/ru
-#     Переходит в раздел “Способы оплаты”
+#     Переходит в раздел "Способы оплаты"
 #     Делает скриншот этой секции страницы
 #
 # В качестве ответа на задание необходимо приложить ссылку на git репозиторий.
 
 @pytest.fixture
 def driver():
-    # service = Service("/Users/romansurkov/Documents/chromedriver-mac-arm64/chromedriver")
-    # options = Options()
-    # driver = webdriver.Chrome(service=service, options=options)
-    driver = webdriver.Chrome()
+    service = FirefoxService(GeckoDriverManager().install())
+    driver = webdriver.Firefox(service=service)
     driver.maximize_window()
-    # driver.set_window_size(640, 460)
-    # driver = webdriver.Chrome(service=service)
-    # driver = webdriver.Chrome(options=options)
     yield driver
     driver.quit()
+
 
 def test_about_page(driver):
     driver.get("https://itcareerhub.de/ru")
@@ -34,18 +30,5 @@ def test_about_page(driver):
     about_link.click()
     sleep(3)
     # about_link.screenshot("ich_page.png") # Make screen HTML-elemnet, but not a page
-    driver.save_screenshot("ICH_Page.png") # ok
+    driver.save_screenshot("ICH_Page.png")  # ok
     sleep(3)
-
-# def test_berlin(driver):
-#     driver.get("https://itcareerhub.de/ru")
-#     driver.refresh()
-#     driver.get("https://www.berlin.de")
-#     driver.save_screenshot("./berlin_s.png")
-#     sleep(2)
-#     driver.refresh()
-#     driver.back()
-#     sleep(2)
-#     driver.forward()
-#     driver.refresh()
-#     sleep(2)
