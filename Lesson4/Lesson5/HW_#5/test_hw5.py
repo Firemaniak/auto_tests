@@ -1,4 +1,5 @@
 import pytest
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -19,7 +20,6 @@ def accept_cookies_via_js(driver):
 
     driver.execute_script(
         """
-        // Пробуем нажать по известным вариантам кнопок согласия (разные плагины WordPress)
         var selectors = [
             '#cookie_action_close_header',
             '#cookie-law-info-bar .cli_action_button',
@@ -34,8 +34,6 @@ def accept_cookies_via_js(driver):
             if (el) { el.click(); }
         });
 
-        // Если баннер всё равно остался в DOM — удаляем его целиком,
-        // чтобы он не перехватывал события мыши во время drag & drop
         var overlays = document.querySelectorAll(
             '#cookie-law-info-bar, .cli-modal-backdrop, #cookie-notice, .cookie-notice-container, #CybotCookiebotDialog'
         );
